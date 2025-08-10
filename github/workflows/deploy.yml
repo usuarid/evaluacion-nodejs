@@ -1,4 +1,4 @@
-name: Deploy to Heroku
+name: CI/CD Deploy to Heroku
 
 on:
   push:
@@ -6,15 +6,29 @@ on:
       - main
 
 jobs:
-  deploy:
+  build:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
 
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
       - name: Install dependencies
         run: npm install
+
+      - name: Run tests
+        run: echo "No hay tests definidos"
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
 
       - name: Deploy to Heroku
         uses: akhileshns/heroku-deploy@v3.12.12
