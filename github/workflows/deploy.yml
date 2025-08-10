@@ -1,4 +1,4 @@
-name: CI/CD NodeJS to Heroku
+name: Deploy to Heroku
 
 on:
   push:
@@ -6,35 +6,19 @@ on:
       - main
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
-
-    steps:
-    - name: Checkout código
-      uses: actions/checkout@v3
-
-    - name: Configurar Node.js
-      uses: actions/setup-node@v3
-      with:
-        node-version: '18'
-
-    - name: Instalar dependencias
-      run: npm install
-
-    - name: Ejecutar tests (opcional)
-      run: echo "No hay tests definidos"
-
   deploy:
-    needs: build
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout código
-      uses: actions/checkout@v3
+      - name: Checkout code
+        uses: actions/checkout@v3
 
-    - name: Deploy a Heroku
-      uses: akhileshns/heroku-deploy@v3.12.12
-      with:
-        heroku_api_key: ${{ secrets.HEROKU_API_KEY }}
-        heroku_app_name: "evaluacion-nodejs"
-        heroku_email: "danielitasr03@gmail.com"
+      - name: Install dependencies
+        run: npm install
+
+      - name: Deploy to Heroku
+        uses: akhileshns/heroku-deploy@v3.12.12
+        with:
+          heroku_api_key: ${{ secrets.HEROKU_API_KEY }}
+          heroku_app_name: ${{ secrets.HEROKU_APP_NAME }}
+          heroku_email: ${{ secrets.HEROKU_EMAIL }}
