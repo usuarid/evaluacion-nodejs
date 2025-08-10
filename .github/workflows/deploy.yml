@@ -34,22 +34,6 @@ jobs:
       - name: Instalar Heroku CLI
         run: curl https://cli-assets.heroku.com/install.sh | sh
 
-      - name: Verificar secretos
-        run: |
-          if [ -z "${{ secrets.HEROKU_API_KEY }}" ]; then
-            echo "ERROR: HEROKU_API_KEY está vacío"
-            exit 1
-          fi
-          if [ -z "${{ secrets.HEROKU_APP_NAME }}" ]; then
-            echo "ERROR: HEROKU_APP_NAME está vacío"
-            exit 1
-          fi
-          if [ -z "${{ secrets.HEROKU_EMAIL }}" ]; then
-            echo "ERROR: HEROKU_EMAIL está vacío"
-            exit 1
-          fi
-          echo "Todos los secretos están definidos"
-
       - name: Deploy to Heroku
         uses: akhileshns/heroku-deploy@v3.12.12
         with:
