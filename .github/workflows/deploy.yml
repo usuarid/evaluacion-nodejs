@@ -27,6 +27,19 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     steps:
+      
+
+      - name: Comprobar secretos
+        run: |
+          if [ -z "${{ secrets.HEROKU_API_KEY }}" ]; then
+            echo "ERROR: HEROKU_API_KEY está vacío"
+            exit 1
+          else
+            echo "HEROKU_API_KEY está configurado"
+          fi
+
+
+      
       - name: Checkout code
         uses: actions/checkout@v3
 
@@ -36,3 +49,7 @@ jobs:
           heroku_api_key: ${{ secrets.HEROKU_API_KEY }}
           heroku_app_name: ${{ secrets.HEROKU_APP_NAME }}
           heroku_email: ${{ secrets.HEROKU_EMAIL }}
+
+
+
+
